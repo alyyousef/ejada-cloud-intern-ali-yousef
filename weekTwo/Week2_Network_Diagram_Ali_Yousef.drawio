@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="cowork" version="24.0.0" type="device">
+  <diagram id="week2-topology" name="Week 2 - OCI Network Topology">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="960" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Week 2 Lab: OCI Network Topology (tf-lab-*-AliYousef)" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#312D2A;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="150" y="0" width="800" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Row 1: client / internet / admin, symmetric around x=550 -->
+        <mxCell id="client" value="Client Browser&lt;br&gt;curl / HTTP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#6B6B6B;fontSize=11;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="190" y="40" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="internet" value="Internet" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DCEFFB;strokeColor=#1B6EC2;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="30" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" value="Ali (Operator)&lt;br&gt;OCI Console / CLI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#6B6B6B;fontSize=11;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="730" y="40" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Row 2: IGW / NAT, symmetric around x=550 -->
+        <mxCell id="igw" value="Internet Gateway&lt;br&gt;tf-lab-igw-AliYousef" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3D6;strokeColor=#C74634;fontSize=11;fontStyle=1;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="170" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="natgw" value="NAT Gateway&lt;br&gt;tf-lab-nat-AliYousef" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3D6;strokeColor=#C74634;fontSize=11;fontStyle=1;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="170" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- VCN container, centered on x=550, spans 100..1000 -->
+        <mxCell id="vcn" value="VCN tf-lab-vcn-AliYousef (10.1.0.0/16)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=center;spacingTop=8;fontSize=13;fontStyle=1;fillColor=none;strokeColor=#312D2A;strokeWidth=2;fontColor=#312D2A;" vertex="1" parent="1">
+          <mxGeometry x="100" y="280" width="900" height="640" as="geometry" />
+        </mxCell>
+
+        <!-- Public subnet container, centered -->
+        <mxCell id="pubsub" value="Public Subnet: tf-lab-public-subnet-AliYousef (10.1.1.0/24)" style="rounded=0;dashed=1;whiteSpace=wrap;html=1;verticalAlign=top;align=center;spacingTop=6;fontSize=11;fontStyle=1;fillColor=none;strokeColor=#C74634;" vertex="1" parent="vcn">
+          <mxGeometry x="40" y="50" width="820" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lb" value="Load Balancer: tf-lab-lb-AliYousef&lt;br&gt;Flexible shape, 10 to 10 Mbps&lt;br&gt;Public IP 141.147.131.235&lt;br&gt;Listener tf-lab-listener-AliYousef: HTTP :80&lt;br&gt;Backend Set tf-lab-backend-set-AliYousef: ROUND_ROBIN&lt;br&gt;Health check: HTTP GET / on :8080, every 10s, 3 retries" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF3D6;strokeColor=#C74634;fontSize=10;align=center;arcSize=6;" vertex="1" parent="pubsub">
+          <mxGeometry x="110" y="35" width="600" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Private subnet container, centered -->
+        <mxCell id="privsub" value="Private Subnet: tf-lab-private-subnet-AliYousef (10.1.2.0/24)" style="rounded=0;dashed=1;whiteSpace=wrap;html=1;verticalAlign=top;align=center;spacingTop=6;fontSize=11;fontStyle=1;fillColor=none;strokeColor=#1B6EC2;" vertex="1" parent="vcn">
+          <mxGeometry x="40" y="230" width="820" height="380" as="geometry" />
+        </mxCell>
+
+        <!-- Instance / File Storage: symmetric pair around privsub center (410) -->
+        <mxCell id="inst" value="Compute Instance: tf-lab-linux-AliYousef&lt;br&gt;Oracle Linux 9, no public IP&lt;br&gt;Private IP 10.1.2.231&lt;br&gt;systemd service on :8080" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCEFFB;strokeColor=#1B6EC2;fontSize=10;align=center;" vertex="1" parent="privsub">
+          <mxGeometry x="80" y="40" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fs" value="File Storage: tf-lab-mount-target-AliYousef&lt;br&gt;Mount target IP 10.1.2.81&lt;br&gt;Export /tf-lab-export-aliyousef&lt;br&gt;Mounted at /mnt/appdata (NFS)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3E3F3;strokeColor=#8E44AD;fontSize=10;align=center;" vertex="1" parent="privsub">
+          <mxGeometry x="440" y="40" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Bastion: centered on privsub center (410), row 2 -->
+        <mxCell id="bastion" value="OCI Bastion: tf-lab-bastion-AliYousef&lt;br&gt;STANDARD type&lt;br&gt;Session TTL up to 10800s (3h)&lt;br&gt;Target: private subnet" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FBE0DE;strokeColor=#C0392B;fontSize=10;align=center;" vertex="1" parent="privsub">
+          <mxGeometry x="260" y="220" width="300" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Edges: all orthogonal, sharp corners, explicit connection points ===== -->
+
+        <!-- client -> internet -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#6B6B6B;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="client" target="internet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- admin -> internet -->
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;startArrow=block;strokeColor=#6B6B6B;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="internet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- internet <-> igw -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;startArrow=block;strokeColor=#1B6EC2;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="internet" target="igw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- natgw -> internet (egress only) -->
+        <mxCell id="e4" value="egress only" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#6B6B6B;fontSize=9;exitX=0.7;exitY=0;exitDx=0;exitDy=0;entryX=0.7;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="natgw" target="internet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- igw -> lb (public subnet) -->
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;startArrow=block;strokeColor=#C74634;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.4;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="igw" target="lb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- lb -> instance -->
+        <mxCell id="e6" value="TCP 8080, health-checked" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#1B6EC2;fontSize=9;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="lb" target="inst">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- instance <-> fs (NFS), same row, straight horizontal -->
+        <mxCell id="e7" value="NFS 2049/111/2048-2050" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;startArrow=block;strokeColor=#8E44AD;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="inst" target="fs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- bastion -> instance (TCP 22) -->
+        <mxCell id="e8" value="TCP 22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#C0392B;fontSize=9;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="bastion" target="inst">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- admin -> bastion (Managed SSH Session), routed outside the VCN's right edge -->
+        <mxCell id="e9" value="Managed SSH Session (console/CLI)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#C0392B;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="bastion">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1060" y="70" />
+              <mxPoint x="1060" y="780" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- private subnet -> natgw (egress), routed outside the VCN's right edge, parallel to e9 -->
+        <mxCell id="e10" value="0.0.0.0/0 egress" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#6B6B6B;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="privsub" target="natgw">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1030" y="700" />
+              <mxPoint x="1030" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
