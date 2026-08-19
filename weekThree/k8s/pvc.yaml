@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: demo-app-data
+  namespace: week3-demo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: week3-oci-bv
+  resources:
+    requests:
+      storage: 50Gi

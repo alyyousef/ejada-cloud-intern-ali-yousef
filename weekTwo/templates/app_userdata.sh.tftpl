@@ -1,15 +1,6 @@
 #!/bin/bash
-# Cloud-init script for the private instance. Templated by Terraform
-# (templatefile() in main.tf) so the NFS mount target IP and export path
-# never get hardcoded — they're only known after Terraform creates those
-# resources, which is exactly what templatefile() is for.
 set -eux
 
-# Oracle Linux ships with firewalld active by default, which blocks inbound
-# connections on any port that isn't explicitly opened — independent of
-# (and in addition to) the VCN security list. Without this, the load
-# balancer's health check gets "connection failed" even though the
-# security list already permits the traffic.
 if systemctl is-active --quiet firewalld; then
   firewall-cmd --permanent --add-port=${app_port}/tcp
   firewall-cmd --reload
@@ -18,8 +9,6 @@ fi
 MOUNT_POINT="/mnt/appdata"
 mkdir -p "$MOUNT_POINT"
 
-# The mount target can take a few seconds to be fully reachable right after
-# creation, so retry instead of failing the whole boot on the first try.
 for i in $(seq 1 10); do
   if mount -t nfs "${mount_target_ip}:${export_path}" "$MOUNT_POINT"; then
     break
@@ -30,10 +19,6 @@ done
 grep -q "$MOUNT_POINT" /etc/fstab || \
   echo "${mount_target_ip}:${export_path} $MOUNT_POINT nfs defaults,_netdev 0 0" >> /etc/fstab
 
-# Lab 2 requirement: the application's files live on File Storage, not
-# baked into the instance image. Seed a minimal page there if it's not
-# already present (so re-running this on a replaced instance doesn't wipe
-# out anything real that got put there later).
 if [ ! -f "$MOUNT_POINT/index.html" ]; then
   cat > "$MOUNT_POINT/index.html" <<'HTML'
 <!DOCTYPE html>
@@ -48,8 +33,6 @@ if [ ! -f "$MOUNT_POINT/index.html" ]; then
 HTML
 fi
 
-# Run the app as a systemd service so it survives reboots, rather than a
-# background process that dies with the SSH session that started it.
 cat > /etc/systemd/system/tflabapp.service <<UNIT
 [Unit]
 Description=tf-lab week 2 application

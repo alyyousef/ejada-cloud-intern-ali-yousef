@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: week3-demo
+  labels:
+    project: ejada-internship-week3
+    owner: ali-yousef
