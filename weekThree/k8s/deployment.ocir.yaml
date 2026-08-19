@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: week3-demo
+  labels:
+    app: demo-app
+spec:
+  # Kept at 1: the PVC below is ReadWriteOnce (a block volume can only be
+  # attached to a single node at a time), so a second replica would risk
+  # landing on a different node and getting stuck unable to attach the
+  # same volume. Scale the *stateless* part of an app like this behind a
+  # separate Deployment without the volume if more replicas are needed.
+  replicas: 1
+  # Recreate rather than the default RollingUpdate: with a single replica on
+  # a ReadWriteOnce block volume, RollingUpdate tries to bring the new pod up
+  # (possibly on a different node) before killing the old one, but the volume
+  # can only attach to one node at a time - that's a deadlock (hit this live
+  # in the original build: new pod stuck at Init:0/1 waiting on the volume,
+  # old pod never torn down because the rollout is waiting on the new pod to
+  # go Ready first). Recreate kills the old pod first, so the volume frees up
+  # before the new one needs it.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      # No initContainer here, unlike deployment.yaml. This is the Lab 3
+      # ("Containerization") version: the page-rendering logic that used to
+      # live in a separate busybox initContainer is now baked into this
+      # image's own ENTRYPOINT (see app/entrypoint.sh), so there's only one
+      # container instead of two.
+      #
+      # Replace <region-key>.ocir.io/<tenancy-namespace> below with your own
+      # OCIR path once you've pushed the image -- see app/README.md for the
+      # exact build/tag/push commands. Fully-qualify it (registry included),
+      # same reasoning as the original deployment.yaml: this OKE node image
+      # runs CRI-O with short-name mode set to "enforcing", which refuses to
+      # guess a registry for an unqualified name.
+      containers:
+        - name: demo-app
+          image: <region-key>.ocir.io/<tenancy-namespace>/week3-demo-app:v1
+          ports:
+            - containerPort: 80
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: IMAGE_TAG
+              value: "week3-demo-app:v1"
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+              # Not readOnly here (unlike deployment.yaml's nginx container):
+              # this image's own entrypoint writes index.html into this path
+              # at container start, so it needs write access to the PVC-backed
+              # volume. That write is still the same live proof the storage
+              # layer covered in Section 4.6 of the documentation relies on --
+              # a CSI-provisioned block volume that's actually mounted and
+              # writable, not just attached.
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: demo-app-data
