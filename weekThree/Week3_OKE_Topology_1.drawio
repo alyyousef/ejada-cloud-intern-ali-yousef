@@ -1,0 +1,144 @@
+<mxfile host="Drawpyo" modified="2026-08-19T16:05:43" agent="Python 3.11, Drawpyo 0.23" version="21.6.5" type="device">
+  <diagram name="Week 3 OKE Topology" id="139747603414864">
+    <mxGraphModel dx="2037" dy="830" grid="1" gridSize="10" guides="1" toolTips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1280" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="139747604430672" value="Client browser&#xa;HTTP GET" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=12;fontColor=#1F2933;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="480" y="40" width="220" height="70" as="geometry" />
+</mxCell>
+        <mxCell id="139747602274960" value="Ali (operator)&#xa;kubectl / terraform" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=12;fontColor=#1F2933;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="900" y="40" width="240" height="70" as="geometry" />
+</mxCell>
+        <mxCell id="139747604372048" value="Internet" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#17324D;dashed=0;fontStyle=1;fontSize=12;fontColor=#17324D;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="650" y="180" width="200" height="60" as="geometry" />
+</mxCell>
+        <mxCell id="139747604372304" value="Internet Gateway&#xa;tf-lab-oke-igw-AliYousef" style="whiteSpace=wrap;rounded=0;fillColor=#EAF3F8;strokeColor=#2F6F9F;dashed=0;fontSize=12;fontColor=#17324D;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="610" y="300" width="280" height="60" as="geometry" />
+</mxCell>
+        <mxCell id="139747601783504" value="VCN tf-lab-oke-vcn-AliYousef (10.0.0.0/16)" style="whiteSpace=wrap;rounded=0;fillColor=none;strokeColor=#17324D;dashed=0;fontStyle=1;fontSize=12;fontColor=#17324D;spacingTop=6;spacingLeft=8;align=left;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="340" y="400" width="980" height="800" as="geometry" />
+</mxCell>
+        <mxCell id="139747601783248" value="LB Subnet tf-lab-oke-lb-subnet-AliYousef -- 10.0.8.0/24" style="whiteSpace=wrap;rounded=0;fillColor=#EAF3F8;strokeColor=#2F6F9F;dashed=0;fontStyle=1;fontSize=12;fontColor=#2F6F9F;spacingTop=6;spacingLeft=8;align=left;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="380" y="440" width="900" height="170" as="geometry" />
+</mxCell>
+        <mxCell id="139747601754192" value="Kubernetes-Provisioned Load Balancer -- demo-app-lb&#xa;Flexible shape, flat 10 Mbps (min = max), provisioned by the Cloud Controller Manager&#xa;Service type: LoadBalancer, port 80 -&gt; pod port 80&#xa;External IP 80.225.69.163" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#2F6F9F;dashed=0;fontSize=11;fontColor=#1F2933;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="420" y="480" width="820" height="110" as="geometry" />
+</mxCell>
+        <mxCell id="139747601754000" value="Workers Subnet 10.0.16.0/20  •  Pods Subnet 10.0.32.0/19 (VCN-native)" style="whiteSpace=wrap;rounded=0;fillColor=#EAF3F8;strokeColor=#2F6F9F;dashed=0;fontStyle=1;fontSize=12;fontColor=#2F6F9F;spacingTop=6;spacingLeft=8;align=left;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="380" y="640" width="900" height="520" as="geometry" />
+</mxCell>
+        <mxCell id="139747593876560" value="Worker Node Pool&#xa;tf-lab-oke-AliYousef-workers&#xa;&#xa;2 x VM.Standard.E4.Flex&#xa;CRI-O runtime, Oracle Linux 8.10&#xa;max 31 pods/node" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#2F6F9F;dashed=0;fontSize=12;fontColor=#1F2933;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="420" y="690" width="380" height="200" as="geometry" />
+</mxCell>
+        <mxCell id="139747593876752" value="Application Pod&#xa;demo-app-*&#xa;&#xa;nginx :80, initContainer&#xa;1 replica, strategy: Recreate" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#2F6F9F;dashed=0;fontSize=12;fontColor=#1F2933;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="860" y="690" width="380" height="200" as="geometry" />
+</mxCell>
+        <mxCell id="139747593877200" value="PersistentVolumeClaim demo-app-data -- 50Gi, ReadWriteOnce&#xa;StorageClass week3-oci-bv  •  provisioned by the Block Volume CSI driver" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#5B8C6A;dashed=0;fontSize=11;fontColor=#1F2933;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="420" y="950" width="820" height="110" as="geometry" />
+</mxCell>
+        <mxCell id="139747593877648" value="terraform apply&#xa;(cluster + node pool)&#xa;kubectl apply&#xa;(namespace onward)" style="whiteSpace=wrap;rounded=0;fillColor=none;strokeColor=none;dashed=0;fontStyle=2;fontSize=11;fontColor=#1F2933;align=center;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="640" width="250" height="100" as="geometry" />
+</mxCell>
+        <mxCell id="139747593878032" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;entryX=0;entryY=0.5;exitX=0.5;exitY=1;endArrow=block;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747604430672" target="139747604372048" value="">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="139747593878800" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;entryX=1;entryY=0.5;exitX=0.5;exitY=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747602274960" target="139747604372048" value="">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="139747593879312" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;entryX=0.5;entryY=0;exitX=0.5;exitY=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747604372048" target="139747604372304" value="">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="139747593978192" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;entryX=0.5;entryY=0;exitX=0.5;exitY=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747604372304" target="139747601754192" value="">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="139747593978704" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;entryX=0.5;entryY=0;exitX=0.75;exitY=1;endArrow=block;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747601754192" target="139747593876752" value="TCP 80, health-checked">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="139747593979216" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;entryX=0;entryY=0.5;exitX=1;exitY=0.5;endArrow=block;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747593876560" target="139747593876752" value="schedules">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="139747593979728" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;entryX=0.5;entryY=0;exitX=0.5;exitY=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747593876752" target="139747593877200" value="CSI mount">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="139747593980112" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;dashed=1;rounded=0;jettySize=auto;entryX=0;entryY=0.5;exitX=0.5;exitY=0;endArrow=block;endFill=1;strokeWidth=1;fontSize=11;fontColor=#1F2933;" edge="1" parent="1" source="139747602274960" target="139747593876560" value="">
+  <mxGeometry relative="1" as="geometry">
+<Array as="points">
+<mxPoint x="1020" y="10" />
+<mxPoint x="60" y="10" />
+<mxPoint x="60" y="790" />
+</Array>
+</mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="OCI Icon Mapping" id="139747593981072">
+    <mxGraphModel dx="2037" dy="830" grid="1" gridSize="10" guides="1" toolTips="1" connect="1" arrows="1" fold="1" page="2" pageScale="1" pageWidth="1100" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="139747593981008" value="Finishing this diagram with the official OCI icon set" style="whiteSpace=wrap;rounded=0;fillColor=none;strokeColor=none;dashed=0;fontStyle=1;fontSize=20;fontColor=#17324D;align=left;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="20" y="20" width="900" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="139747593982160" value="This page&apos;s boxes are plain placeholder shapes (not the licensed OCI icon set), because this environment could not download Oracle&apos;s proprietary draw.io library over the network. To swap in the real icons on your own machine:&#xa;&#xa;1. Download the official library: docs.oracle.com/iaas/Content/Resources/Assets/OCI-Style-Guide-for-Drawio.zip&#xa;2. In draw.io: click &quot;More Shapes&quot; at the bottom of the left shape panel (or File &gt; Open Library...), then browse to the .xml file inside the extracted zip. This adds an &quot;Oracle Cloud Infrastructure&quot; category to your shape panel.&#xa;3. On the Topology page, drag the matching OCI icon (see the table below) on top of each placeholder box, delete the placeholder, then reconnect the 1-2 arrows that touched it -- the layout, spacing, and orthogonal routing are already correct, so this is quick." style="whiteSpace=wrap;rounded=0;fillColor=none;strokeColor=none;dashed=0;fontSize=12;fontColor=#1F2933;align=left;verticalAlign=top;" vertex="1" parent="1">
+  <mxGeometry x="20" y="70" width="1040" height="220" as="geometry" />
+</mxCell>
+        <mxCell id="139747593982608" value="Diagram box" style="whiteSpace=wrap;rounded=0;fillColor=#EAF3F8;strokeColor=#8A8F98;dashed=0;fontStyle=1;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="310" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593983056" value="Suggested official OCI stencil" style="whiteSpace=wrap;rounded=0;fillColor=#EAF3F8;strokeColor=#8A8F98;dashed=0;fontStyle=1;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="310" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593983760" value="VCN container" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="352" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593984080" value="Networking &gt; Virtual Cloud Network" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="352" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593984784" value="LB Subnet / Workers Subnet / Pods Subnet containers" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="394" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593985040" value="Networking &gt; Subnet" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="394" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593985808" value="Internet Gateway" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="436" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593986192" value="Networking &gt; Internet Gateway" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="436" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593986960" value="Kubernetes-Provisioned Load Balancer" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="478" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593987344" value="Networking &gt; Load Balancer" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="478" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593988112" value="Worker Node Pool" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="520" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593988496" value="Compute &gt; Instance Pool  (or Containers &gt; Node Pool if present)" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="520" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593989264" value="Application Pod" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="562" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593989648" value="Containers &gt; Container Instance  (or a generic Kubernetes pod icon)" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="562" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593990416" value="PersistentVolumeClaim" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="604" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593990800" value="Storage &gt; Block Volume" style="whiteSpace=wrap;rounded=0;fillColor=#FFFFFF;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="604" width="560" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593991568" value="Ali (operator)" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="20" y="646" width="480" height="42" as="geometry" />
+</mxCell>
+        <mxCell id="139747593991952" value="Generic &gt; User / Person actor" style="whiteSpace=wrap;rounded=0;fillColor=#F2F4F6;strokeColor=#8A8F98;dashed=0;fontSize=11;fontColor=#1F2933;spacingLeft=8;align=left;verticalAlign=middle;" vertex="1" parent="1">
+  <mxGeometry x="500" y="646" width="560" height="42" as="geometry" />
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
